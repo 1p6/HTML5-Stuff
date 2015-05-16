@@ -24,4 +24,8 @@ document.ondrop = function(evt){
   }
   reader.readAsDataURL(file);
 }
+
+document.ondragstart = function(evt){
+  evt.preventDefault();
+}
 </script>
