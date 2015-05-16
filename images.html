@@ -25,7 +25,7 @@ document.ondrop = function(evt){
     
     img.onmousedown = function(es){
       zindex++;
-      img.style.z-index = zindex;
+      img.style.zIndex = zindex;
       
       document.onmousemove = function(ess){
         img.style.left = (ess.clientX - es.offsetX) + "px";
