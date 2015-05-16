@@ -20,6 +20,18 @@ document.ondrop = function(evt){
     img.style.position = "absolute";
     img.style.left = evt.clientX + "px";
     img.style.top = evt.clientY + "px";
+    
+    img.onmousedown = function(es){
+      document.onmousemove = function(ess){
+        img.style.left = ess.clientX - es.offsetX;
+        img.style.top = ess.clientY - es.offsetY;
+      }
+    }
+    
+    img.onmouseup = function(){
+      document.onmousemove = function(){};
+    }
+    
     document.body.appendChild(img);
   }
   reader.readAsDataURL(file);
