@@ -32,6 +32,10 @@ document.ondrop = function(evt){
       document.onmousemove = function(){};
     }
     
+    img.ondblclick = function(){
+      document.body.removeChild(img);
+    }
+    
     document.body.appendChild(img);
   }
   reader.readAsDataURL(file);
