@@ -5,6 +5,8 @@ document.ondragover = function(evt){
   evt.dataTransfer.dropEffect = "copy";
 }
 
+var zindex = 0;
+
 document.ondrop = function(evt){
   evt.stopPropagation();
   evt.preventDefault();
@@ -22,6 +24,8 @@ document.ondrop = function(evt){
     img.style.top = evt.clientY + "px";
     
     img.onmousedown = function(es){
+      img.style.z-index = index++;
+      
       document.onmousemove = function(ess){
         img.style.left = (ess.clientX - es.offsetX) + "px";
         img.style.top = (ess.clientY - es.offsetY) + "px";
