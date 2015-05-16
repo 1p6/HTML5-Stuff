@@ -1,1 +1,23 @@
+<script>
+document.ondragover = function(evt){
+  evt.stopPropagation();
+  evt.preventDefault();
+  evt.dataTransfer.dropEffect = "copy";
+}
 
+document.ondrop = function(evt){
+  evt.stopPropagation();
+  evt.preventDefault();
+  
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = document.createElement("img");
+    img.src = e.target.result;
+    img.style.position = "absolute";
+    img.style.left = evt.clientX + "px";
+    img.style.top = evt.clientY + "px";
+    document.body.appendChild(img);
+  }
+  reader.readAsDataURL(evt.dataTransfer.files[0]);
+}
+</script>
