@@ -13,7 +13,7 @@ document.ondragover = function(evt){
   evt.stopPropagation();
   evt.preventDefault();
   evt.dataTransfer.dropEffect = "copy";
-}
+};
 
 var zindex = 0;
 
@@ -42,23 +42,23 @@ document.ondrop = function(evt){
       document.onmousemove = function(ess){
         img.style.left = (ess.clientX - es.offsetX) + "px";
         img.style.top = (ess.clientY - es.offsetY) + "px";
-      }
-    }
+      };
+    };
     
     img.onmouseup = function(){
       document.onmousemove = function(){};
-    }
+    };
     
     img.ondblclick = function(){
       document.body.removeChild(img);
-    }
+    };
     
     document.body.appendChild(img);
-  }
+  };
   reader.readAsDataURL(file);
-}
+};
 
 document.ondragstart = function(evt){
   evt.preventDefault();
-}
+};
 </script>
