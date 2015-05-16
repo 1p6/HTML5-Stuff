@@ -22,6 +22,8 @@ document.ondrop = function(evt){
     img.style.position = "absolute";
     img.style.left = evt.clientX + "px";
     img.style.top = evt.clientY + "px";
+    zindex++;
+    img.style.zIndex = zindex;
     
     img.onmousedown = function(es){
       zindex++;
