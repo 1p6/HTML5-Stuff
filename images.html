@@ -20,42 +20,43 @@ var zindex = 0;
 document.ondrop = function(evt){
   evt.stopPropagation();
   evt.preventDefault();
+  var files = evt.dataTransfer.files;
   
-  var file = evt.dataTransfer.files[0];
-  
-  if(file == undefined) { return; }
-  
-  var reader = new FileReader();
-  reader.onload = function(e){
-    var img = document.createElement("img");
-    img.src = e.target.result;
-    img.style.position = "absolute";
-    img.style.left = evt.clientX + "px";
-    img.style.top = evt.clientY + "px";
-    zindex++;
-    img.style.zIndex = zindex;
+  for(var i in files)
+    var file = files[i];
     
-    img.onmousedown = function(es){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = document.createElement("img");
+      img.src = e.target.result;
+      img.style.position = "absolute";
+      img.style.left = evt.clientX + "px";
+      img.style.top = evt.clientY + "px";
       zindex++;
       img.style.zIndex = zindex;
       
-      document.onmousemove = function(ess){
-        img.style.left = (ess.clientX - es.offsetX) + "px";
-        img.style.top = (ess.clientY - es.offsetY) + "px";
+      img.onmousedown = function(es){
+        zindex++;
+        img.style.zIndex = zindex;
+        
+        document.onmousemove = function(ess){
+          img.style.left = (ess.clientX - es.offsetX) + "px";
+          img.style.top = (ess.clientY - es.offsetY) + "px";
+        };
       };
+      
+      img.onmouseup = function(){
+        document.onmousemove = function(){};
+      };
+      
+      img.ondblclick = function(){
+        document.body.removeChild(img);
+      };
+      
+      document.body.appendChild(img);
     };
-    
-    img.onmouseup = function(){
-      document.onmousemove = function(){};
-    };
-    
-    img.ondblclick = function(){
-      document.body.removeChild(img);
-    };
-    
-    document.body.appendChild(img);
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
+  }
 };
 
 document.ondragstart = function(evt){
