@@ -9,6 +9,10 @@ document.ondrop = function(evt){
   evt.stopPropagation();
   evt.preventDefault();
   
+  var file = evt.dataTransfer.files[0];
+  
+  if(file == undefined) { return; }
+  
   var reader = new FileReader();
   reader.onload = function(e){
     var img = document.createElement("img");
@@ -18,6 +22,6 @@ document.ondrop = function(evt){
     img.style.top = evt.clientY + "px";
     document.body.appendChild(img);
   }
-  reader.readAsDataURL(evt.dataTransfer.files[0]);
+  reader.readAsDataURL(file);
 }
 </script>
