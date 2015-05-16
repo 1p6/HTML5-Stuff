@@ -23,8 +23,8 @@ document.ondrop = function(evt){
     
     img.onmousedown = function(es){
       document.onmousemove = function(ess){
-        img.style.left = ess.clientX - es.offsetX;
-        img.style.top = ess.clientY - es.offsetY;
+        img.style.left = (ess.clientX - es.offsetX) + "px";
+        img.style.top = (ess.clientY - es.offsetY) + "px";
       }
     }
     
