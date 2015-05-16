@@ -22,7 +22,7 @@ document.ondrop = function(evt){
   evt.preventDefault();
   var files = evt.dataTransfer.files;
   
-  for(var i in files)
+  for(var i in files){
     var file = files[i];
     
     var reader = new FileReader();
