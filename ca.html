@@ -1,0 +1,107 @@
+press space to go to the next simulation<br>
+press r to restart the simulation<br>
+<script>
+var c = document.createElement('canvas')
+document.body.appendChild(c)
+var width = c.width = 640
+var height = c.height = 480
+var ctx = c.getContext('2d')
+var y = 0
+var colors = [[0, 0, 0], [], [], []]
+var state = []
+var rule = []
+var img = ctx.createImageData(width, 1)
+var imgData = img.data
+var hue2rgb = function(t){
+  if(t < 0){
+    t++
+  }
+  if(t > 1){
+    t--
+  }
+  t *= 6
+  if(t < 1){
+    return t
+  }
+  if(t < 3){
+    return 1
+  }
+  if(t < 4){
+    return 4 - t
+  }
+  return 0
+}
+var init = function(){
+  colors[0][0] = Math.floor(Math.random() * 256)
+  colors[0][1] = Math.floor(Math.random() * 256)
+  colors[0][2] = Math.floor(Math.random() * 256)
+  colors[1][0] = Math.floor(Math.random() * 256)
+  colors[1][1] = Math.floor(Math.random() * 256)
+  colors[1][2] = Math.floor(Math.random() * 256)
+  colors[2][0] = Math.floor(Math.random() * 256)
+  colors[2][1] = Math.floor(Math.random() * 256)
+  colors[2][2] = Math.floor(Math.random() * 256)
+  colors[3][0] = Math.floor(Math.random() * 256)
+  colors[3][1] = Math.floor(Math.random() * 256)
+  colors[3][2] = Math.floor(Math.random() * 256)
+  for(var i = 0; i < 10; i++){
+    rule[i] = Math.floor(Math.random() * 4)
+  }
+  for(var x = 0; x < width; x++){
+    state[x] = Math.floor(Math.random() * 4)
+  }
+}
+document.body.addEventListener('keypress', function(e){
+  if(e.code === 'Space'){
+    y = 0
+    init()
+    location.hash = JSON.stringify({colors: colors, rule: rule})
+  } else if(e.code === 'KeyR'){
+    for(var x = 0; x < width; x++){
+      state[x] = Math.floor(Math.random() * 4)
+    }
+    y = 0
+  }
+})
+init()
+if(location.hash){
+  var obj = JSON.parse(location.hash.substr(1))
+  colors = obj.colors
+  rule = obj.rule
+} else {
+  location.hash = JSON.stringify({colors: colors, rule: rule})
+}
+var draw = function(){
+  requestAnimationFrame(draw)
+  if(y === 0){
+    ctx.fillRect(0 ,0, width, height)
+  }
+  for(var x = 0; x < width; x++){
+    var col = colors[state[x]]
+    var bx = x*4
+    imgData[bx] = col[0]
+    imgData[bx+1] = col[1]
+    imgData[bx+2] = col[2]
+    imgData[bx+3] = 255
+  }
+  ctx.putImageData(img, 0, y)
+  var newstate = []
+  for(var x = 0; x < width; x++){
+    var sum = null
+    if(x === 0){
+      sum = state[width-1] + state[0] + state[1]
+    } else if(x === width-1){
+      sum = state[x-1] + state[x] + state[0]
+    } else {
+      sum = state[x-1] + state[x] + state[x+1]
+    }
+    newstate[x] = rule[sum]
+  }
+  state = newstate
+  y++
+  if(y === height){
+    y = 0
+  }
+}
+requestAnimationFrame(draw)
+</script>
