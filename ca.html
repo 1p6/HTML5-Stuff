@@ -1,4 +1,3 @@
-<body>
 press space to go to the next simulation<br/>
 press r to restart the simulation<br/>
 <script>
@@ -56,7 +55,7 @@ document.body.addEventListener('keypress', function(e){
   if(e.code === 'Space'){
     y = 0
     init()
-    location.hash = JSON.stringify({colors: colors, rule: rule})
+    location.hash = btoa(JSON.stringify({colors: colors, rule: rule}))
   } else if(e.code === 'KeyR'){
     for(var x = 0; x < width; x++){
       state[x] = Math.floor(Math.random() * 4)
@@ -66,11 +65,11 @@ document.body.addEventListener('keypress', function(e){
 })
 init()
 if(location.hash){
-  var obj = JSON.parse(location.hash.substr(1))
+  var obj = JSON.parse(atob(location.hash.substr(1)))
   colors = obj.colors
   rule = obj.rule
 } else {
-  location.hash = JSON.stringify({colors: colors, rule: rule})
+  location.hash = btoa(JSON.stringify({colors: colors, rule: rule}))
 }
 var draw = function(){
   requestAnimationFrame(draw)
@@ -106,4 +105,3 @@ var draw = function(){
 }
 requestAnimationFrame(draw)
 </script>
-</body>
